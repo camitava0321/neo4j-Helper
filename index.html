@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>Neo4J-Cypher Query Language (CQL)</title>
+	<link href="jquery-ui.css" rel="stylesheet"/>
+	<link href=amitava.css rel="stylesheet"/>
+	<script type='text/javascript' src='external/jquery/jquery.js'></script>
+	<script type='text/javascript' src='jquery-ui.js'></script>  
+	<script type="text/javascript">
+  $(document).ready(function(){
+    $("#accordion1").accordion();
+    $("#accordion2").accordion(); 
+    $('#tabs').tabs();
+  });
+  </script></head>
+<body>
+<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+		<strong>Next Day:</strong><a href="http://www.tutorialspoint.com/neo4j/neo4j_cql_where_clause.htm" target="_blank">start from here</a></p>
+	</div>
+</div>
+<h1>Neo4J-Cypher Query Language (CQL)</h1>
+<div class="ui-widget">
+	<p>
+    A query language for Neo4j Graph Database.
+	</p>
+</div>
+
+<!-- Tabs -->
+<h2 class="demoHeaders">Neo4j CQL Commands/Clauses</h2>
+<p>The following are <b>frequently used</b> Neo4j CQL Commands/Clauses</p>
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">CREATE</a></li>
+		<li><a href="#tabs-2">MATCH</a></li>
+		<li><a href="#tabs-3">RETURN</a></li>
+		<li><a href="#tabs-1">WHERE</a></li>
+		<li><a href="#tabs-2">DELETE</a></li>
+		<li><a href="#tabs-3">REMOVE</a></li>
+		<li><a href="#tabs-1">ORDER</a></li>
+		<li><a href="#tabs-2">SET</a></li>
+	</ul>
+	<div id="tabs-1">
+		<h3>CREATE	To create nodes, relationships and properties</h3>
+		<!-- Accordion -->
+		<div id="accordion1">
+			<h3>CREATE Nodes</h3>
+				<div>
+					<code title="Copy the code from here" id="tooltip">
+					create (:Organisation {acronym:"SWR",name:"Swiss Reinsurance", type:"ReInsurance"}) <br/>
+					create (n:News {text:"Market Share of National Insurance has increased", sentiment:0.8})
+					</code>
+				</div>
+			<h3>CREATE Constraint</h3>
+				<div>
+					<code title="Copy the code from here">
+					create constraint on (o:Organisation) assert length(o.acronym)=3	<br/>
+					create constraint on (o:Organisation) assert o.acronym is unique<br/>
+					create constraint on (o:Organisation) assert exists(o.type)<br/>
+					</code>
+				</div>
+			<h3>CREATE Relationship (no attributes) between existing nodes</h3>
+				<div>
+					<code>
+					match (n:Organisation {acronym:"SWR"}) match(i:Organisation) where i.acronym="NIA" create (i)-[:INSURED_WITH]->(n) <br/>
+					match (n:Place) match(i:Organisation) where i.name<>"The Telegraph" create (i)-[:ORG_IN]->(n)
+					</code>
+				</div>
+			<h3>CREATE Relationship (with attributes) between existing nodes</h3>
+				<div>
+					<code>
+					match (n:Organisation {acronym:"SWR"}) match(i:Organisation) where i.acronym="NIA" create (i)-[:INSURED_WITH{expiry:"31/12/2016"}]->(n) <br/>
+					</code>
+				</div>
+			<h3>CREATE Relationship (with attributes) between new nodes</h3>
+				<div>
+					<code>
+					create (:Organisation {acronym:"LIC",name:"Life Insurance Corporation of India", type:"Insurance"})-[:INSURED_WITH{expiry:"31/12/2016"}]->(:Organisation {acronym:"MHR",name:"Munich Re Group", type:"ReInsurance"})
+					</code>
+				</div>
+		</div>
+	</div>
+	<div id="tabs-2">
+		<p>Should always be used with a RETURN/CREATE</h3>
+		<!-- Accordion -->
+		<div id="accordion2">
+			<h3>Basic Match - match all</h3>
+				<div>
+					<code>
+					match (n:News) return n<br/>
+					match (n:News) return n.id,n.text
+					</code>
+				</div>
+			<h3>MATCH Relationship</h3>
+				<div>
+					<code>
+					match (a)-[:INSURED_WITH]-(b) return a,b
+					</code>
+				</div>
+			<h3>CREATE Relationship [Match to nodes then create a relation</h3>
+				<div>
+					<code>
+					match (n:Organisation {acronym:"SWR"}) match(i:Organisation) where i.acronym="NIA" create (i)-[:INSURED_WITH]->(n) <br/>
+					match (n:Place) match(i:Organisation) where i.name<>"The Telegraph" create (i)-[:ORG_IN]->(n)
+					</code>
+				</div>
+		</div>
+	</div>
+	<div id="tabs-3">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+</div>
+
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+<script>
+
+$( "#accordion" ).accordion();
+
+
+
+var availableTags = [
+	"ActionScript",
+	"AppleScript",
+	"Asp",
+	"BASIC",
+	"C",
+	"C++",
+	"Clojure",
+	"COBOL",
+	"ColdFusion",
+	"Erlang",
+	"Fortran",
+	"Groovy",
+	"Haskell",
+	"Java",
+	"JavaScript",
+	"Lisp",
+	"Perl",
+	"PHP",
+	"Python",
+	"Ruby",
+	"Scala",
+	"Scheme"
+];
+$( "#autocomplete" ).autocomplete({
+	source: availableTags
+});
+
+
+
+$( "#button" ).button();
+$( "#radioset" ).buttonset();
+
+
+
+$( "#tabs" ).tabs();
+
+
+
+$( "#dialog" ).dialog({
+	autoOpen: false,
+	width: 400,
+	buttons: [
+		{
+			text: "Ok",
+			click: function() {
+				$( this ).dialog( "close" );
+			}
+		},
+		{
+			text: "Cancel",
+			click: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	]
+});
+
+// Link to open the dialog
+$( "#dialog-link" ).click(function( event ) {
+	$( "#dialog" ).dialog( "open" );
+	event.preventDefault();
+});
+
+
+
+$( "#datepicker" ).datepicker({
+	inline: true
+});
+
+
+
+$( "#slider" ).slider({
+	range: true,
+	values: [ 17, 67 ]
+});
+
+
+
+$( "#progressbar" ).progressbar({
+	value: 20
+});
+
+
+
+$( "#spinner" ).spinner();
+
+
+
+$( "#menu" ).menu();
+
+
+
+$( "#tooltip" ).tooltip();
+
+
+
+$( "#selectmenu" ).selectmenu();
+
+
+// Hover states on the static widgets
+$( "#dialog-link, #icons li" ).hover(
+	function() {
+		$( this ).addClass( "ui-state-hover" );
+	},
+	function() {
+		$( this ).removeClass( "ui-state-hover" );
+	}
+);
+</script>
+</body>
+</html>
